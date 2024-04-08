@@ -3,14 +3,19 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>GOIT-JS-HW-11</title>
-
+    <title>Event Booster</title>
     <!-- CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
     <link rel="stylesheet" href="./css/styles.css" />
   </head>
   <body>
     <header class="header">
-      <form class="search-form" id="search-form">
+      <!-- <form class="search-form" id="search-form">
         <input
           class="search-form-input"
           type="text"
@@ -18,21 +23,190 @@
           autocomplete="off"
           placeholder="Search images..."
         />
-        <button type="submit">Search</button>
-      </form>
+        <button type="submit">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            class="bi bi-search"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"
+            />
+          </svg>
+        </button>
+      </form> -->
+      <div class="container">
+        <div class="row">
+          <div class="col-sm"></div>
+          <div class="col-sm">
+            <div class="input-group">
+              <input
+                type="text"
+                name="searchQuery"
+                class="form-control"
+                placeholder="Start searching"
+                aria-label="Input group example"
+                aria-describedby="basic-addon1"
+              />
+              <span class="input-group-text" id="basic-addon1">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  class="bi bi-search"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"
+                  ></path>
+                </svg>
+              </span>
+            </div>
+          </div>
+          <div class="col-sm">
+            <div class="country-names">
+              <select id="select-country"
+                class="form-select select-country"
+                aria-label="Default select example"
+              >
+                <option selected disabled>Choose country</option>
+                <!-- <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option> -->
+                <option id="US" value="United States Of America">
+                  United States Of America
+                </option>
+                <option id="AD" value="Andorra">Andorra</option>
+                <option id="AI" value="Anguilla">Anguilla</option>
+                <option id="AR" value="Argentina">Argentina</option>
+                <option id="AU" value="Australia">Australia</option>
+                <option id="AT" value="Austria">Austria</option>
+                <option id="AZ" value="Azerbaijan">Azerbaijan</option>
+                <option id="BS" value="Bahamas">Bahamas</option>
+                <option id="BH" value="Bahrain">Bahrain</option>
+                <option id="BB" value="Barbados">Barbados</option>
+                <option id="BE" value="Belgium">Belgium</option>
+                <option id="BM" value="Bermuda">Bermuda</option>
+                <option id="BR" value="Brazil">Brazil</option>
+                <option id="BG" value="Bulgaria">Bulgaria</option>
+                <option id="CA" value="Canada">Canada</option>
+                <option id="CL" value="Chile">Chile</option>
+                <option id="CN" value="China">China</option>
+                <option id="CO" value="Colombia">Colombia</option>
+                <option id="CR" value="Costa Rica">Costa Rica</option>
+                <option id="HR" value="Croatia">Croatia</option>
+                <option id="CY" value="Cyprus">Cyprus</option>
+                <option id="CZ" value="Czech Republic">Czech Republic</option>
+                <option id="DK" value="Denmark">Denmark</option>
+                <option id="DO" value="Dominican Republic">
+                  Dominican Republic
+                </option>
+                <option id="EC" value="Ecuador">Ecuador</option>
+                <option id="EE" value="Estonia">Estonia</option>
+                <option id="FO" value="Faroe Islands">Faroe Islands</option>
+                <option id="FI" value="Finland">Finland</option>
+                <option id="FR" value="France">France</option>
+                <option id="GE" value="Georgia">Georgia</option>
+                <option id="DE" value="Germany">Germany</option>
+                <option id="GH" value="Ghana">Ghana</option>
+                <option id="GI" value="Gibraltar">Gibraltar</option>
+                <option id="GB" value="Great Britain">Great Britain</option>
+                <option id="GR" value="Greece">Greece</option>
+                <option id="HK" value="Hong Kong">Hong Kong</option>
+                <option id="HU" value="Hungary">Hungary</option>
+                <option id="IS" value="Iceland">Iceland</option>
+                <option id="IN" value="India">India</option>
+                <option id="IE" value="Ireland">Ireland</option>
+                <option id="IL" value="Israel">Israel</option>
+                <option id="IT" value="Italy">Italy</option>
+                <option id="JM" value="Jamaica">Jamaica</option>
+                <option id="JP" value="Japan">Japan</option>
+                <option id="KR" value="Korea, Republic of">
+                  Korea, Republic of
+                </option>
+                <option id="LV" value="Latvia">Latvia</option>
+                <option id="LB" value="Lebanon">Lebanon</option>
+                <option id="LT" value="Lithuania">Lithuania</option>
+                <option id="LU" value="Luxembourg">Luxembourg</option>
+                <option id="MY" value="Malaysia">Malaysia</option>
+                <option id="MT" value="Malta">Malta</option>
+                <option id="MX" value="Mexico">Mexico</option>
+                <option id="MC" value="Monaco">Monaco</option>
+                <option id="ME" value="Montenegro">Montenegro</option>
+                <option id="MA" value="Morocco">Morocco</option>
+                <option id="NL" value="Netherlands">Netherlands</option>
+                <option id="AN" value="Netherlands Antilles">
+                  Netherlands Antilles
+                </option>
+                <option id="NZ" value="New Zealand">New Zealand</option>
+                <option id="ND" value="Northern Ireland">
+                  Northern Ireland
+                </option>
+                <option id="NO" value="Norway">Norway</option>
+                <option id="PE" value="Peru">Peru</option>
+                <option id="PL" value="Poland">Poland</option>
+                <option id="PT" value="Portugal">Portugal</option>
+                <option id="RO" value="Romania">Romania</option>
+                <option id="RU" value="Russian Federation">
+                  Russian Federation
+                </option>
+                <option id="LC" value="Saint Lucia">Saint Lucia</option>
+                <option id="SA" value="Saudi Arabia">Saudi Arabia</option>
+                <option id="RS" value="Serbia">Serbia</option>
+                <option id="SG" value="Singapore">Singapore</option>
+                <option id="SK" value="Slovakia">Slovakia</option>
+                <option id="SI" value="Slovenia">Slovenia</option>
+                <option id="ZA" value="South Africa">South Africa</option>
+                <option id="ES" value="Spain">Spain</option>
+                <option id="SE" value="Sweden">Sweden</option>
+                <option id="CH" value="Switzerland">Switzerland</option>
+                <option id="TW" value="Taiwan">Taiwan</option>
+                <option id="TH" value="Thailand">Thailand</option>
+                <option id="TT" value="Trinidad and Tobago">
+                  Trinidad and Tobago
+                </option>
+                <option id="TR" value="Turkey">Turkey</option>
+                <option id="UA" value="Ukraine">Ukraine</option>
+                <option id="AE" value="United Arab Emirates">
+                  United Arab Emirates
+                </option>
+                <option id="UY" value="Uruguay">Uruguay</option>
+                <option id="VE" value="Venezuela">Venezuela</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-sm"></div>
+        </div>
+      </div>
     </header>
 
     <main class="main-content">
       <section class="section">
-        <div class="container">
-          <div class="gallery">
-            <!-- Image cards -->
+        <div id="events-gallery" class="container">
+          <div class="row">
+            <div class="col-md-3"></div>
           </div>
         </div>
       </section>
     </main>
 
     <!-- JS -->
+    <script
+      async
+      src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"
+      integrity="sha512-WFN04846sdKMIP5LKNphMaWzU7YpMyCU245etK3g/2ARYbPK9Ub18eG+ljU96qKRCWh+quCY7yefSmlkQw1ANQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
     <script src="./js/script.js" type="module"></script>
   </body>
 </html>

@@ -1,4 +1,4 @@
-import { BASE_URL, options } from './pixabay-api.js';
+import { BASE_URL, options } from './project-api.js';
 import axios from 'axios';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import SimpleLightbox from 'simplelightbox';
@@ -8,11 +8,17 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 ///////////////////////////////////////////////////////////////
 
 // ELEMENTS
-const galleryEl = document.querySelector('.gallery');
-const searchInputEl = document.querySelector('input[name="searchQuery"');
-const searchFormEl = document.getElementById('search-form');
+const inputSearch = document.querySelector('input[name="searchQuery"');
+const selectCountry = document.getElementById('select-country');
+const eventsGallery = document.getElementById('events-gallery');
+
+// const searchFormEl = document.getElementById('search-form');
 
 ///////////////////////////////////////////////////////////////
+
+// window.onload = function () {
+  
+// }
 
 // instantiate simplelightbox
 const lightbox = new SimpleLightbox('.lightbox', {
@@ -21,11 +27,11 @@ const lightbox = new SimpleLightbox('.lightbox', {
 });
 
 ///////////////////////////////////////////////////////////////
-let totalHits = 0;
+let totalPages = 0;
 let reachedEnd = false;
 
-function renderGallery(hits) {
-  const markup = hits
+function renderEventsGallery(events) {
+  const markup = events
     .map(
       ({
         webformatURL,
@@ -37,7 +43,7 @@ function renderGallery(hits) {
         downloads,
       }) => {
         return `
-              <a href="${largeImageURL}" class="lightbox">
+              <a href="#" class="lightbox">
                   <div class="photo-card">
                       <img src="${webformatURL}" alt="${tags}" loading="lazy" />
                       <div class="info">
@@ -68,7 +74,7 @@ function renderGallery(hits) {
   galleryEl.insertAdjacentHTML('beforeend', markup);
 
   //   If the user has reached the end of the collection
-  if (options.params.page * options.params.per_page >= totalHits) {
+  if (options.params.page * options.params.per_page >= totalPages) {
     if (!reachedEnd) {
       Notify.info("We're sorry, but you've reached the end of search results.");
       reachedEnd = true;
@@ -79,32 +85,42 @@ function renderGallery(hits) {
 
 ///////////////////////////////////////////////////////////////
 
-async function handleSubmit(e) {
+async function handleEventSearch(e) {
   e.preventDefault();
-  options.params.q = searchInputEl.value.trim();
-  if (options.params.q === '') {
+  let selectedOption = selectCountry.options[selectCountry.selectedIndex];
+  console.log(selectedOption.id);
+
+  options.params.keyword = inputSearch.value.trim();
+  options.params.countryCode = selectedOption.id;
+  // console.log(options.params.keyword);
+  // console.log(options.params.countryCode);
+
+ 
+  if (options.params.keyword === '' || options.params.countryCode === '') {
+    Notify.failure("Please choose a country");
+    inputSearch.value = '';
     return;
   }
-  options.params.page = 1;
-  galleryEl.innerHTML = '';
+  // options.params.page = 1;
+  eventsGallery.innerHTML = '';
   reachedEnd = false;
 
   try {
     const res = await axios.get(BASE_URL, options);
-    totalHits = res.data.totalHits;
+    totalPages = res.data.page.totalPages;
 
-    const { hits } = res.data;
-    console.log(hits);
+    const { events } = res.data._embedded;
+    console.log(events[0].name);
 
-    if (hits.length === 0) {
+    if (!events || events.length === 0) {
       Notify.failure(
-        'Sorry, there are no images matching your search query. Please try again.'
+        'Sorry, there are no events matching your search query. Please try again.'
       );
     } else {
-      Notify.success(`Hooray! We found ${totalHits} images.`);
-      renderGallery(hits);
+      Notify.success(`Hooray! We found ${totalPages} pages.`);
+      renderEventsGallery(events);
     }
-    searchInputEl.value = '';
+    inputSearch.value = '';
   } catch (err) {
     Notify.failure(err);
   }
@@ -129,5 +145,9 @@ function handleScroll() {
     loadMore();
   }
 }
-searchFormEl.addEventListener('submit', handleSubmit);
+inputSearch.addEventListener('input', _.debounce(handleEventSearch, 500));
+// selectCountry.addEventListener("change", () => {
+//   let selectedOption = selectCountry.options[selectCountry.selectedIndex];
+//   console.log(selectedOption.id);
+// })
 window.addEventListener('scroll', handleScroll);
