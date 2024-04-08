@@ -4,7 +4,6 @@ import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
-
 ///////////////////////////////////////////////////////////////
 
 // ELEMENTS
@@ -17,7 +16,7 @@ const eventsGallery = document.getElementById('events-gallery');
 ///////////////////////////////////////////////////////////////
 
 // window.onload = function () {
-  
+
 // }
 
 // instantiate simplelightbox
@@ -32,49 +31,36 @@ let reachedEnd = false;
 
 function renderEventsGallery(events) {
   const markup = events
-    .map(
-      ({
-        webformatURL,
-        largeImageURL,
-        tags,
-        likes,
-        views,
-        comments,
-        downloads,
-      }) => {
-        return `
-              <a href="#" class="lightbox">
-                  <div class="photo-card">
-                      <img src="${webformatURL}" alt="${tags}" loading="lazy" />
+    .map(({ name, images, dates, _embedded }) => {
+      return `
+              
+                <div class="col-md-3">
+                  <div class=box>
+                      <img src="${images[0].url}" loading="lazy" />
                       <div class="info">
+                          <h4 class="info-item">
+                              ${name}
+                          </h4>
                           <p class="info-item">
-                              <b>Likes</b>
-                              ${likes}
+                              ${dates.start.localDate}
                           </p>
-                          <p class="info-item">
-                              <b>Views</b>
-                              ${views}
-                          </p>
-                          <p class="info-item">
+                          <small class="info-item">
                               <b>Comments</b>
-                              ${comments}
-                          </p>
-                          <p class="info-item">
-                              <b>Downloads</b>
-                              ${downloads}
-                          </p>
+                              ${_embedded.venues[0].name}
+                          </small>
+                        
                       </div>
                   </div>
-              </a>
+                </div>
+             
               `;
-      }
-    )
+    })
     .join('');
 
-  galleryEl.insertAdjacentHTML('beforeend', markup);
+  eventsGallery.insertAdjacentHTML('beforeend', markup);
 
   //   If the user has reached the end of the collection
-  if (options.params.page * options.params.per_page >= totalPages) {
+  if (options.params.page >= 49) {
     if (!reachedEnd) {
       Notify.info("We're sorry, but you've reached the end of search results.");
       reachedEnd = true;
@@ -95,9 +81,8 @@ async function handleEventSearch(e) {
   // console.log(options.params.keyword);
   // console.log(options.params.countryCode);
 
- 
   if (options.params.keyword === '' || options.params.countryCode === '') {
-    Notify.failure("Please choose a country");
+    Notify.failure('Please choose a country');
     inputSearch.value = '';
     return;
   }
