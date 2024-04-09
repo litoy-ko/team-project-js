@@ -10,6 +10,7 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 const inputSearch = document.querySelector('input[name="searchQuery"');
 const selectCountry = document.getElementById('select-country');
 const eventsGallery = document.getElementById('events-gallery');
+let paginationNum = document.getElementById('pagination-div');
 
 // const searchFormEl = document.getElementById('search-form');
 
@@ -61,6 +62,8 @@ function renderEventsGallery(events) {
     .join('');
 
   eventsGallery.insertAdjacentHTML('beforeend', markup);
+  paginationNum.classList.toggle("is-hidden")
+
 
   //   If the user has reached the end of the collection
   if (options.params.page >= 49) {
@@ -95,7 +98,13 @@ async function handleEventSearch(e) {
 
   try {
     const res = await axios.get(BASE_URL, options);
-    totalPages = res.data.page.totalPages;
+    // totalPages = res.data.page.totalPages;
+    if (res.data.page.totalPages > 49) {
+      totalPages = 49;
+    }
+    else {
+      totalPages = res.data.page.totalPages;
+      }
 
     const { events } = res.data._embedded;
     console.log(events[0].name);
@@ -142,9 +151,9 @@ inputSearch.addEventListener('input', _.debounce(handleEventSearch, 500));
 
 /////////////////////////////////////////////////////////////////////////////////////
 // PAGINATION
-const pageNumbersUl = document.getElementById('page-numbers');
 const currentPageDiv = document.querySelector('.current-page');
-const nums = [...Array(30).keys()].slice(1);
+const pageNumbersUl = document.querySelector('.page-numbers');
+const nums = [...Array(totalPages).keys()].slice(1);
 
 function renderPageNumbers(startIndex) {
   pageNumbersUl.innerHTML = '';

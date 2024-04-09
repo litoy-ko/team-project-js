@@ -116,26 +116,40 @@ main {
 
 /* -------------------------PAGINATION------------------- */
 
-.pagination-div ul {
+#pagination-div ul {
     display: flex;
     list-style-type: none;
-    gap: 5px;
+    justify-content: center;
+    /* gap: 5px; */
 
 }
 
 li.active {
-    background-color: aquamarine;
-    border: 1px solid pink;
+    /* background-color: aquamarine; */
+    border: 1px solid #DC56C5;
     padding: 0 4px 0 4px;
-    border-radius: 2px;
+    border-top-left-radius: 15px;
+    border-bottom-right-radius: 15px;
 }
 
-#page-numbers li {
+.page-numbers li {
     font-family: "Montserrat";
     font-weight: 400;
     font-size: 16px;
-
+    padding: 10px 15px 10px 15px;
 }
+
+.page-numbers li:hover,
+.page-numbers li:focus{
+    cursor: pointer;
+}
+
+.is-hidden {
+    visibility: hidden;
+}
+
+
+/* -------------PAGINATION END---------------- */
 
 .footer-div {
     margin-top: 50px;
