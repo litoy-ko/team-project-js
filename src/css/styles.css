@@ -148,6 +148,10 @@ li.active {
     visibility: hidden;
 }
 
+.is-visible {
+    visibility: visible;
+}
+
 
 /* -------------PAGINATION END---------------- */
 

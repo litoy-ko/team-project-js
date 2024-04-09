@@ -30,7 +30,14 @@ const lightbox = new SimpleLightbox('.lightbox', {
 let totalPages = 0;
 let reachedEnd = false;
 
+window.onload = () => {
+  sessionStorage.clear()
+  paginationNum.classList.remove('is-visible');
+  paginationNum.classList.add('is-hidden');
+}
+
 function renderEventsGallery(events) {
+  eventsGallery.innerHTML = ""
   const markup = events
     .map(({ name, images, dates, _embedded }) => {
       return `
@@ -62,7 +69,9 @@ function renderEventsGallery(events) {
     .join('');
 
   eventsGallery.insertAdjacentHTML('beforeend', markup);
-  paginationNum.classList.toggle("is-hidden")
+  paginationNum.classList.remove("is-hidden")
+  paginationNum.classList.add('is-visible');
+  
 
 
   //   If the user has reached the end of the collection
@@ -79,6 +88,9 @@ function renderEventsGallery(events) {
 
 async function handleEventSearch(e) {
   e.preventDefault();
+  paginationNum.classList.remove('is-visible');
+  paginationNum.classList.add('is-hidden');
+
   let selectedOption = selectCountry.options[selectCountry.selectedIndex];
   console.log(selectedOption.id);
 
@@ -99,15 +111,20 @@ async function handleEventSearch(e) {
   try {
     const res = await axios.get(BASE_URL, options);
     // totalPages = res.data.page.totalPages;
-    if (res.data.page.totalPages > 49) {
-      totalPages = 49;
+    sessionStorage.setItem('actualTotalPages: ', res.data.page.totalPages);
+    if (res.data.page.totalPages < 49) {
+      totalPages = res.data.page.totalPages;
+      console.log("total pages:", totalPages)
+      sessionStorage.setItem('totalPages', totalPages);
     }
     else {
-      totalPages = res.data.page.totalPages;
+      totalPages = 49;
+      console.log('total pages:', totalPages);
+      sessionStorage.setItem('totalPages', totalPages);
       }
 
     const { events } = res.data._embedded;
-    console.log(events[0].name);
+    // console.log(events[0].name);
 
     if (!events || events.length === 0) {
       Notify.failure(
@@ -115,6 +132,7 @@ async function handleEventSearch(e) {
       );
     } else {
       Notify.success(`Hooray! We found ${totalPages} pages.`);
+      renderPageNumbers(1);
       renderEventsGallery(events);
     }
     inputSearch.value = '';
@@ -125,12 +143,13 @@ async function handleEventSearch(e) {
 
 ///////////////////////////////////////////////////////////////
 
-async function loadMore() {
-  options.params.page += 1;
+async function loadPage(i) {
+  options.params.page = i;
   try {
     const res = await axios.get(BASE_URL, options);
-    const hits = res.data.hits;
-    renderGallery(hits);
+    const { events } = res.data._embedded;
+    // const hits = res.data.hits;
+    renderEventsGallery(events);
   } catch (err) {
     Notify.failure(err);
   }
@@ -153,9 +172,15 @@ inputSearch.addEventListener('input', _.debounce(handleEventSearch, 500));
 // PAGINATION
 const currentPageDiv = document.querySelector('.current-page');
 const pageNumbersUl = document.querySelector('.page-numbers');
-const nums = [...Array(totalPages).keys()].slice(1);
+
 
 function renderPageNumbers(startIndex) {
+  let pageTotal = parseInt(sessionStorage.getItem("totalPages"));
+  // sessionStorage.clear();
+  const nums = [...Array(pageTotal).keys()].slice();
+  // console.log("numeroxxx: ", nums);
+  console.log("keykeykeyword: ", options.params.keyword);
+  // console.log('pahina: ', pageTotal);
   pageNumbersUl.innerHTML = '';
   currentPageDiv.textContent = startIndex;
   if (startIndex > 1) {
@@ -183,6 +208,8 @@ function renderPageNumbers(startIndex) {
         .forEach(activeLi => activeLi.classList.remove('active'));
       li.classList.add('active');
       currentPageDiv.textContent = i;
+      // console.log("li value: ", i)
+      loadPage(i);
     });
     pageNumbersUl.appendChild(li);
   }
@@ -199,6 +226,6 @@ function renderPageNumbers(startIndex) {
     });
   }
 }
-renderPageNumbers(1);
+
 
 
