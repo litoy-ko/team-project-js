@@ -11,17 +11,19 @@ body {
 }
 
 header {
-    padding-top: 90px;
+    padding-top: 50px;
     /* border: 1px solid black; */
     background-image: url(../images/bg-header.png);
     background-size: cover;
-    /* position: relative; */
+    position: relative;
 }
 
 .logo-icon {
     position: absolute;
     top: 0;
     left: 0;
+    width: auto;
+    height: auto;
 }
 
 .site-title-div{
@@ -67,9 +69,11 @@ header {
 
 img {
     display: block;
-    width: 270px;
-    height: 150px;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
+    border-top-left-radius: 50px;
+    border-bottom-right-radius: 50px;
 }
 
 main {
@@ -77,7 +81,64 @@ main {
     padding: 0 40px 0 40px;
 }
 
+.event-data {
+    /* border: 1px solid orange; */
+    padding: 0;
+    padding: 0 20px 0 20px;
+}
+
+.event-data-box {
+    /* border: 1px solid blue; */
+    position: relative;
+    padding-top: 30px;
+}
+
+.event-data-boxForImg{
+    /* margin-top: 30px; */
+    width: 90%;
+    height: 230px;
+    /* border: 1px solid yellow; */
+   
+
+}
+.event-data-overlay-border {
+    width: 90%;
+    height: 230px;
+    border: 1px solid rgba(220, 86, 197, 0.3);
+    border-top-left-radius: 50px;
+    border-bottom-right-radius: 50px;
+    position: absolute;
+    top: 0;
+    right: 0;
+
+}
+
+
+/* -------------------------PAGINATION------------------- */
+
+.pagination-div ul {
+    display: flex;
+    list-style-type: none;
+    gap: 5px;
+
+}
+
+li.active {
+    background-color: aquamarine;
+    border: 1px solid pink;
+    padding: 0 4px 0 4px;
+    border-radius: 2px;
+}
+
+#page-numbers li {
+    font-family: "Montserrat";
+    font-weight: 400;
+    font-size: 16px;
+
+}
+
 .footer-div {
+    margin-top: 50px;
     display: flex;
     justify-content: center;
 }
@@ -87,6 +148,7 @@ main {
     padding-right: 15px; */
     /* margin: 0; */
     width: 100%;
+    padding-bottom: 50px;
 }
 
 /* Search Field */
@@ -116,9 +178,10 @@ main {
 }
 
 .info {
+    text-align: center;
     padding: 10px;
-    display: flex;
-    justify-content: space-between;
+    /* display: flex; */
+    /* justify-content: space-between; */
 }
 
 .info-item {
@@ -128,8 +191,23 @@ main {
     font-size: 12px;
 }
 
-.info-number {
-    margin-top: 5px;
-    font-weight: 400;
-    font-size: 11px;
+.info h4 {
+    font-family: "Montserrat";
+    font-weight: 700;
+    color: #DC56C5;
+    text-align: center;
+    /* border: 1px solid; */
+    font-size: 16px;
+    opacity: 50%;
 }
+
+.info p{
+    font-family: "Montserrat";
+        font-weight: 400;
+        text-align: center;
+        /* border: 1px solid; */
+        font-size: 16px;
+        margin: 0;
+
+}
+
