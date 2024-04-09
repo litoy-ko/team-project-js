@@ -1,17 +1,68 @@
-p,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+body {
+    
+    font-family: 'Montserrat', sans-serif;
     margin: 0;
+    /* background-color: #0E0E0E; */
+    color: white;
+    padding: 0;
+    background-image: url(../images/bg-body.png);
+    /* background-position: 0 700px; */
+    background-size: cover;
 }
 
-body {
-    font-family: 'Roboto', sans-serif;
-    margin: 0;
-    background-color: #0E0E0E;
+header {
+    padding-top: 90px;
+    /* border: 1px solid black; */
+    background-image: url(../images/bg-header.png);
+    background-size: cover;
+    /* position: relative; */
+}
+
+.logo-icon {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.site-title-div{
+    margin: 90px 0 0 0;
+    /* border: 1px solid blue; */
+}
+.site-title-text {
+    font-family: "Montserrat";
+    font-weight: 900;
+    color: #DC56C5;
+    text-align: center;
+    /* border: 1px solid; */
+    font-size: 50px;
+}
+
+.inputs {
+    margin: 50px 0 0 0;
+    /* border: 1px solid orange; */
+    padding-bottom: 140px;
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    
+}
+.input-div {
+   /* background-color: #DC56C5 !important; */
+   position: relative;
+   flex-basis: 300px;
+}
+
+.input-div input,
+.input-div select {
+    opacity: 50%;
+}
+
+.input-div span {
+    background-color: transparent;
+    border-color: transparent;
+    position: absolute;
+    top: 3;
+    right: 3;
 }
 
 img {
@@ -21,34 +72,25 @@ img {
     object-fit: cover;
 }
 
-.section {
-    padding-top: 30px;
-    padding-bottom: 30px;
+main {
+    min-height: 100vh;
+    padding: 0 40px 0 40px;
 }
 
-.container {
+.footer-div {
+    display: flex;
+    justify-content: center;
+}
+.events-container {
+    /* background-color: blueviolet; */
     /* padding-left: 15px;
     padding-right: 15px; */
-    margin: 0 auto;
-    width: 1200px;
+    /* margin: 0; */
+    width: 100%;
 }
 
 /* Search Field */
-.header {
-    /* border: 1px solid blue; */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px 0;
-    /* background-color: #1565c0; */
-    background-image: url("../images/header-image.png");
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
-    /* background-attachment: fixed; */
-    /* background-position: center; */
-    height: 400px;
 
-}
 
 .search-form-input {
     padding-left: 15px;
@@ -57,10 +99,8 @@ img {
 }
 
 /* Gallery */
-.gallery {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
+.row{
+    width: 100%;
 }
 
 .lightbox {
