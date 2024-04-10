@@ -113,7 +113,13 @@ main {
 
 }
 
+/* MODAL  */
 
+#exampleModal{
+    color: black;
+}
+
+/* MODAL END  */
 /* -------------------------PAGINATION------------------- */
 
 #pagination-div ul {
@@ -150,6 +156,10 @@ li.active {
 
 .is-visible {
     visibility: visible;
+}
+
+a.eventModal {
+    text-decoration: none;
 }
 
 
@@ -200,6 +210,7 @@ li.active {
     padding: 10px;
     /* display: flex; */
     /* justify-content: space-between; */
+    color: white;
 }
 
 .info-item {
@@ -207,6 +218,7 @@ li.active {
     flex-direction: column;
     text-align: center;
     font-size: 12px;
+    color: white;
 }
 
 .info h4 {

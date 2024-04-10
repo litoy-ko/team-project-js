@@ -11,6 +11,7 @@ const inputSearch = document.querySelector('input[name="searchQuery"');
 const selectCountry = document.getElementById('select-country');
 const eventsGallery = document.getElementById('events-gallery');
 let paginationNum = document.getElementById('pagination-div');
+let modalBody = document.getElementById('modal-edit-here');
 
 // const searchFormEl = document.getElementById('search-form');
 
@@ -29,50 +30,57 @@ const lightbox = new SimpleLightbox('.lightbox', {
 ///////////////////////////////////////////////////////////////
 let totalPages = 0;
 let reachedEnd = false;
+let currentEvents = {};
 
 window.onload = () => {
-  sessionStorage.clear()
+  sessionStorage.clear();
   paginationNum.classList.remove('is-visible');
   paginationNum.classList.add('is-hidden');
+};
+
+function renderModal(currentID) {
+  console.log('The is the id: ', currentID);
+  modalBody.innerText = currentEvents[0].name;
 }
 
 function renderEventsGallery(events) {
-  eventsGallery.innerHTML = ""
+  eventsGallery.innerHTML = '';
   const markup = events
-    .map(({ name, images, dates, _embedded }) => {
+    .map(({ name, id, images, dates, _embedded }) => {
       return `
               
-                <div class="col-md-3 event-data">
-                  <div class="event-data-box">
-                    <div class=event-data-boxForImg>
-                      <img src="${images[0].url}" loading="lazy" />
+                <div class="col-md-3 event-data" data-name="event-card" data-id="${id}">
+                <a href="#" class="eventModal" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                  <div class="event-data-box" data-name="event-card" data-id="${id}">
+                    <div class="event-data-boxForImg" data-name="event-card" data-id="${id}">
+                      <img src="${images[0].url}" loading="lazy" data-name="event-card" data-id="${id}"/>
                     </div>
-                    <div class="event-data-overlay-border">
+                    <div class="event-data-overlay-border" data-name="event-card" data-id="${id}">
                     </div>
-                      <div class="info">
-                          <h4 class="info-item">
+                      <div class="info" data-name="event-card" data-id="${id}">
+                          <h4 class="info-item" data-name="event-card" data-id="${id}">
                               ${name}
                           </h4>
-                          <p class="info-item">
+                          <p class="info-item" data-name="event-card" data-id="${id}">
                               ${dates.start.localDate}
                           </p>
-                          <small class="info-item">
+                          <small class="info-item" data-name="event-card" data-id="${id}">
                                ${_embedded.venues[0].name}
                           </small>
                         
                       </div>
                   </div>
+                </a>
                 </div>
              
               `;
     })
     .join('');
 
+  currentEvents = events;
   eventsGallery.insertAdjacentHTML('beforeend', markup);
-  paginationNum.classList.remove("is-hidden")
+  paginationNum.classList.remove('is-hidden');
   paginationNum.classList.add('is-visible');
-  
-
 
   //   If the user has reached the end of the collection
   if (options.params.page >= 49) {
@@ -92,7 +100,7 @@ async function handleEventSearch(e) {
   paginationNum.classList.add('is-hidden');
 
   let selectedOption = selectCountry.options[selectCountry.selectedIndex];
-  console.log(selectedOption.id);
+  // console.log(selectedOption.id);
 
   options.params.keyword = inputSearch.value.trim();
   options.params.countryCode = selectedOption.id;
@@ -114,14 +122,13 @@ async function handleEventSearch(e) {
     sessionStorage.setItem('actualTotalPages: ', res.data.page.totalPages);
     if (res.data.page.totalPages < 49) {
       totalPages = res.data.page.totalPages;
-      console.log("total pages:", totalPages)
+      console.log('total pages:', totalPages);
       sessionStorage.setItem('totalPages', totalPages);
-    }
-    else {
+    } else {
       totalPages = 49;
       console.log('total pages:', totalPages);
       sessionStorage.setItem('totalPages', totalPages);
-      }
+    }
 
     const { events } = res.data._embedded;
     // console.log(events[0].name);
@@ -162,10 +169,17 @@ function handleScroll() {
   }
 }
 inputSearch.addEventListener('input', _.debounce(handleEventSearch, 500));
-// selectCountry.addEventListener("change", () => {
-//   let selectedOption = selectCountry.options[selectCountry.selectedIndex];
-//   console.log(selectedOption.id);
-// })
+document.addEventListener('click', e => {
+  // console.log("this is clicked:  ", e.target.parentElement.parentElement.parentElement)
+  // console.log('this is clicked: ', e.target.getAttribute('data-name'));
+  if (e.target.getAttribute('data-name') === 'event-card') {
+    let currentID = e.target.getAttribute('data-id');
+    // console.log("this is the id: ", currentID);
+    // console.log("this is the event: ", currentEvents);
+    renderModal(currentID);
+  }
+});
+
 // window.addEventListener('scroll', handleScroll);
 
 /////////////////////////////////////////////////////////////////////////////////////
@@ -173,13 +187,12 @@ inputSearch.addEventListener('input', _.debounce(handleEventSearch, 500));
 const currentPageDiv = document.querySelector('.current-page');
 const pageNumbersUl = document.querySelector('.page-numbers');
 
-
 function renderPageNumbers(startIndex) {
-  let pageTotal = parseInt(sessionStorage.getItem("totalPages"));
+  let pageTotal = parseInt(sessionStorage.getItem('totalPages'));
   // sessionStorage.clear();
   const nums = [...Array(pageTotal).keys()].slice();
   // console.log("numeroxxx: ", nums);
-  console.log("keykeykeyword: ", options.params.keyword);
+  console.log('keykeykeyword: ', options.params.keyword);
   // console.log('pahina: ', pageTotal);
   pageNumbersUl.innerHTML = '';
   currentPageDiv.textContent = startIndex;
@@ -226,6 +239,3 @@ function renderPageNumbers(startIndex) {
     });
   }
 }
-
-
-
