@@ -11,7 +11,7 @@ const inputSearch = document.querySelector('input[name="searchQuery"');
 const selectCountry = document.getElementById('select-country');
 const eventsGallery = document.getElementById('events-gallery');
 let paginationNum = document.getElementById('pagination-div');
-let modalBody = document.getElementById('modal-edit-here');
+let modalHeaderLogoDiv = document.getElementById('modal-header-logo-div');
 
 // const searchFormEl = document.getElementById('search-form');
 
@@ -40,7 +40,14 @@ window.onload = () => {
 
 function renderModal(currentID) {
   console.log('The is the id: ', currentID);
-  modalBody.innerText = currentEvents[0].name;
+  // modalBody.innerText = currentEvents[0].name;
+  let eventIndex = currentEvents.map(e => e.id).indexOf(currentID);
+  // modalBody.innerText = eventIndex;
+  const { name, id, images, dates, _embedded } = currentEvents[eventIndex];
+  let headerImgHTML = ` 
+                   <img src="${images[0].url}" class="rounded-circle" loading="lazy"/>
+  `;
+  modalHeaderLogoDiv.insertAdjacentHTML('beforeend', headerImgHTML);
 }
 
 function renderEventsGallery(events) {
@@ -50,10 +57,10 @@ function renderEventsGallery(events) {
       return `
               
                 <div class="col-md-3 event-data" data-name="event-card" data-id="${id}">
-                <a href="#" class="eventModal" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                <a href="#" class="eventModal" data-bs-toggle="modal" data-bs-target="#eventModal">
                   <div class="event-data-box" data-name="event-card" data-id="${id}">
                     <div class="event-data-boxForImg" data-name="event-card" data-id="${id}">
-                      <img src="${images[0].url}" loading="lazy" data-name="event-card" data-id="${id}"/>
+                      <img src="${images[0].url}" class="image-card" loading="lazy" data-name="event-card" data-id="${id}"/>
                     </div>
                     <div class="event-data-overlay-border" data-name="event-card" data-id="${id}">
                     </div>
@@ -139,7 +146,7 @@ async function handleEventSearch(e) {
       );
     } else {
       Notify.success(`Hooray! We found ${totalPages} pages.`);
-      renderPageNumbers(1);
+      renderPageNumbers(1, 1);
       renderEventsGallery(events);
     }
     inputSearch.value = '';
@@ -151,7 +158,7 @@ async function handleEventSearch(e) {
 ///////////////////////////////////////////////////////////////
 
 async function loadPage(i) {
-  options.params.page = i;
+  options.params.page = i - 1;
   try {
     const res = await axios.get(BASE_URL, options);
     const { events } = res.data._embedded;
@@ -168,6 +175,9 @@ function handleScroll() {
     loadMore();
   }
 }
+
+// EVENT LISTENERS -----------------------------
+
 inputSearch.addEventListener('input', _.debounce(handleEventSearch, 500));
 document.addEventListener('click', e => {
   // console.log("this is clicked:  ", e.target.parentElement.parentElement.parentElement)
@@ -180,14 +190,29 @@ document.addEventListener('click', e => {
   }
 });
 
-// window.addEventListener('scroll', handleScroll);
+document.addEventListener('click', e => {
+  if (
+    e.target.tagName === 'BUTTON' &&
+    e.target.getAttribute('class') === 'btn-close'
+  ) {
+    document.getElementById('modal-header-logo-div').innerHTML="";
+  }
+});
+document.addEventListener('click', e => {
+  if (e.target.tagName === 'DIV' &&
+    e.target.getAttribute('id') === 'eventModal') {
+    document.getElementById('modal-header-logo-div').innerHTML = '';
+    }
+});
+// EVENT LISTENERS END -----------------------------------
 
-/////////////////////////////////////////////////////////////////////////////////////
-// PAGINATION
+
+// PAGINATION --------------------------------------------
 const currentPageDiv = document.querySelector('.current-page');
 const pageNumbersUl = document.querySelector('.page-numbers');
+// let activePage = 1;
 
-function renderPageNumbers(startIndex) {
+function renderPageNumbers(startIndex, activePage) {
   let pageTotal = parseInt(sessionStorage.getItem('totalPages'));
   // sessionStorage.clear();
   const nums = [...Array(pageTotal).keys()].slice();
@@ -197,31 +222,42 @@ function renderPageNumbers(startIndex) {
   pageNumbersUl.innerHTML = '';
   currentPageDiv.textContent = startIndex;
   if (startIndex > 1) {
+    // for previous li; in this case page number 1
     const previousPageLi = document.createElement('li');
     previousPageLi.textContent = 1;
     pageNumbersUl.appendChild(previousPageLi);
+    previousPageLi.addEventListener('click', () => {
+      pageNumbersUl
+        .querySelectorAll('.active')
+        .forEach(activeLi => activeLi.classList.remove('active'));
+      previousPageLi.classList.add('active');
+      activePage = Number(previousPageLi.textContent); ////////////////////////
+      currentPageDiv.textContent = Number(previousPageLi.textContent);
+      loadPage(Number(previousPageLi.textContent));
+    });
+
     const previousEllipsisLi = document.createElement('li');
     previousEllipsisLi.textContent = '...';
     pageNumbersUl.appendChild(previousEllipsisLi);
     previousEllipsisLi.addEventListener('click', () => {
       const previousStartIndex = Math.max(startIndex - 5, 1);
-      renderPageNumbers(previousStartIndex);
+      renderPageNumbers(previousStartIndex, activePage);
     });
   }
   const endIndex = Math.min(startIndex + 4, nums.length);
   for (let i = startIndex; i <= endIndex; i++) {
     const li = document.createElement('li');
     li.textContent = i;
-    if (i === startIndex) {
-      li.classList.add('active');
-    }
+    // if (i === startIndex) {
+    //   li.classList.add('active');
+    // }
     li.addEventListener('click', () => {
       pageNumbersUl
         .querySelectorAll('.active')
         .forEach(activeLi => activeLi.classList.remove('active'));
       li.classList.add('active');
+      activePage = i; ////////////////////////
       currentPageDiv.textContent = i;
-      // console.log("li value: ", i)
       loadPage(i);
     });
     pageNumbersUl.appendChild(li);
@@ -233,9 +269,32 @@ function renderPageNumbers(startIndex) {
     const lastPageLi = document.createElement('li');
     lastPageLi.textContent = nums.length;
     pageNumbersUl.appendChild(lastPageLi);
+    lastPageLi.addEventListener('click', () => {
+      pageNumbersUl
+        .querySelectorAll('.active')
+        .forEach(activeLi => activeLi.classList.remove('active'));
+      lastPageLi.classList.add('active');
+      activePage = Number(lastPageLi.textContent); ////////////////////////
+      currentPageDiv.textContent = Number(lastPageLi.textContent);
+      loadPage(Number(lastPageLi.textContent));
+    });
+
     nextEllipsisLi.addEventListener('click', () => {
       const nextStartIndex = endIndex + 1;
-      renderPageNumbers(nextStartIndex);
+      renderPageNumbers(nextStartIndex, activePage);
     });
   }
+
+  let liPages = document.querySelectorAll('.page-numbers li');
+  // console.log("mao ni lipages: ", liPages);
+  for (let liPage of liPages) {
+    // console.log("liPage: ", liPage.textContent)
+    // console.log('activePage: ', activePage);
+
+    if (Number(liPage.textContent) === Number(activePage)) {
+      console.log('kit-an ra jd');
+      liPage.classList.add('active');
+    }
+  }
 }
+// PAGINATION END ------------------------------
