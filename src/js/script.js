@@ -12,6 +12,8 @@ const selectCountry = document.getElementById('select-country');
 const eventsGallery = document.getElementById('events-gallery');
 let paginationNum = document.getElementById('pagination-div');
 let modalHeaderLogoDiv = document.getElementById('modal-header-logo-div');
+let modalBody = document.querySelector(".modal-body");
+
 
 // const searchFormEl = document.getElementById('search-form');
 
@@ -47,7 +49,43 @@ function renderModal(currentID) {
   let headerImgHTML = ` 
                    <img src="${images[0].url}" class="rounded-circle" loading="lazy"/>
   `;
+
+  let modalBodyHTML = `
+          <div class="modal-body-one">
+            <div class="modal-body-img-div">
+              <img src="${images[0].url}" class="modal-body-img" loading="lazy"/>
+            </div>
+            <div class="modal-body-info-div">
+              <h3 class="modal-info-title">INFO</h3>
+              <p class="info-content">Atlas Weekend is the largest music festival in Ukraine.More than 200 artists will create a proper music festival atmosphere on 10 stages </p>
+              <h3 class="modal-info-title">WHEN</h3>
+              <p class="info-content">${dates.start.localDate}<br>${dates.start.localTime}</p>
+              <h3 class="modal-info-title">WHERE</h3>
+              <p class="info-content">${_embedded.venues[0].name}<br>${_embedded.venues[0].city.name}, ${_embedded.venues[0].state.name}</p>
+            </div>
+          </div>
+           <div class="modal-body-who-div">
+              <h3 class="modal-info-title">WHO</h3>
+              <p class="info-content">${name}</p>
+           </div>
+           <div class="modal-body-price-div">
+              <h3 class="modal-info-title">PRICES</h3>
+              <div class="price-content">
+                <div>
+                  <p class="info-content">Standard</p>
+                  <button type="button" class="btn btn-primary">BUY TICKETS</button>
+                </div>
+                <div>
+                  <p class="info-content">VIP</p>
+                  <button type="button" class="btn btn-primary">BUY TICKETS</button>
+                </div>
+                
+              </div>
+           </div>
+  `;
+
   modalHeaderLogoDiv.insertAdjacentHTML('beforeend', headerImgHTML);
+  modalBody.innerHTML = modalBodyHTML;
 }
 
 function renderEventsGallery(events) {
@@ -216,7 +254,7 @@ function renderPageNumbers(startIndex, activePage) {
   let pageTotal = parseInt(sessionStorage.getItem('totalPages'));
   // sessionStorage.clear();
   const nums = [...Array(pageTotal).keys()].slice();
-  // console.log("numeroxxx: ", nums);
+  
   console.log('keykeykeyword: ', options.params.keyword);
   // console.log('pahina: ', pageTotal);
   pageNumbersUl.innerHTML = '';

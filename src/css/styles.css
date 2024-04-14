@@ -87,6 +87,13 @@ main {
     padding: 0 40px 0 40px;
 }
 
+#events-gallery {
+    /* border: 1px solid blue; */
+    max-width: 1250px;
+    margin: 0 auto 0 auto;
+
+}
+
 .event-data {
     /* border: 1px solid orange; */
     padding: 0;
@@ -102,14 +109,14 @@ main {
 .event-data-boxForImg{
     /* margin-top: 30px; */
     width: 90%;
-    height: 230px;
+    height: 220px;
     /* border: 1px solid yellow; */
    
 
 }
 .event-data-overlay-border {
     width: 90%;
-    height: 230px;
+    height: 220px;
     border: 1px solid rgba(220, 86, 197, 0.3);
     border-top-left-radius: 50px;
     border-bottom-right-radius: 50px;
@@ -121,22 +128,26 @@ main {
 
 /* MODAL  */
 .modal-dialog {
-    max-width: 900px;
+    max-width: 1000px;
+    /* max-height: 900px; */
+    /* background-color: blue; */
+
 
 }
 .modal-content {
-    max-width: 800px;
-    height: 600px;
+    width: 100%;
+    /* height: 600px; */
     color: black;
-    background-color: #FFF2FD;
-    border-top-left-radius: 200px;
-    border-bottom-right-radius: 200px;
+    /* background-color: yellow; */
+    border-top-left-radius: 150px;
+    border-bottom-right-radius: 150px;
 }
 
 .modal-header {
     position:relative;
-    
+    border: none;
 }
+
 .modal-header .btn-close {
     position: absolute;
     top: 0;
@@ -145,9 +156,8 @@ main {
 
 }
 
-button.btn-primary {
-    margin: 0 auto 0 auto;;
-}
+
+
 
 div.rounded-circle {
     background-color: #DC56C5 !important;
@@ -162,6 +172,66 @@ div.rounded-circle img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+}
+
+.modal-body{
+    padding: 0 0 0 55px;
+}
+
+.modal-body-one {
+    display: flex;
+    /* justify-content: center; */
+    column-gap: 32px;
+    padding: 0;
+
+}
+.modal-body-img-div {
+    max-width: 427px;
+    height: 326px;
+    /* border: 2px solid green; */
+}
+
+.modal-body-img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+
+}
+
+.modal-body-info-div {
+    max-width: 427px;
+    height: 326px;
+    /* border: 2px solid green; */
+    padding-right: 40px;
+}
+
+h3.modal-info-title {
+    font-weight: 600;
+    font-size: 24px;
+    color: #DC56C5;
+    margin: 0;
+}
+p.info-content {
+    font-weight: 400;
+    font-size: 18px;
+    color: #0E0E0E;
+}
+
+div.price-content {
+    display: flex;
+    gap: 32px;
+    /* border: 2px solid orange; */
+}
+
+.modal-footer {
+    border: none;
+}
+
+.modal-footer button{
+    margin: 0 auto 0 auto;
+    color: #0d6efd;
+    background-color: white;
 }
 /* -----------------------MODAL END---------------------  */
 
