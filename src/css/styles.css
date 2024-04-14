@@ -128,7 +128,7 @@ main {
 
 /* MODAL  */
 .modal-dialog {
-    max-width: 1000px;
+    max-width: 750px;
     /* max-height: 900px; */
     /* background-color: blue; */
 
@@ -138,7 +138,7 @@ main {
     width: 100%;
     /* height: 600px; */
     color: black;
-    /* background-color: yellow; */
+    background-color: #FFF2FD;
     border-top-left-radius: 150px;
     border-bottom-right-radius: 150px;
 }
@@ -146,6 +146,7 @@ main {
 .modal-header {
     position:relative;
     border: none;
+    /* margin-top: 30px; */
 }
 
 .modal-header .btn-close {
@@ -153,7 +154,12 @@ main {
     top: 0;
     right: 0;
     margin: 0;
+    color: #0d6efd;
 
+}
+
+.btn-close::before {
+    color: blue;
 }
 
 
@@ -161,8 +167,8 @@ main {
 
 div.rounded-circle {
     background-color: #DC56C5 !important;
-    height: 132px;
-    width: 132px;
+    height: 100px;
+    width: 100px;
     margin-left: auto;
     margin-right: auto;
 }
@@ -183,11 +189,12 @@ div.rounded-circle img {
     /* justify-content: center; */
     column-gap: 32px;
     padding: 0;
+    flex-wrap: wrap;
 
 }
 .modal-body-img-div {
-    max-width: 427px;
-    height: 326px;
+    max-width: 320px;
+    height: 270px;
     /* border: 2px solid green; */
 }
 
@@ -196,36 +203,38 @@ div.rounded-circle img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-
 }
 
 .modal-body-info-div {
-    max-width: 427px;
-    height: 326px;
+    max-width: 300px;
+    height: 270px;
     /* border: 2px solid green; */
-    padding-right: 40px;
+    /* padding-right: 40px; */
 }
 
 h3.modal-info-title {
     font-weight: 600;
-    font-size: 24px;
+    font-size: 20px;
     color: #DC56C5;
     margin: 0;
 }
 p.info-content {
     font-weight: 400;
-    font-size: 18px;
+    font-size: 15px;
     color: #0E0E0E;
+    line-height: 19px;
 }
 
 div.price-content {
     display: flex;
-    gap: 32px;
+    gap: 50px;
+    flex-wrap: wrap;
     /* border: 2px solid orange; */
 }
 
 .modal-footer {
     border: none;
+    margin-bottom: 20px;
 }
 
 .modal-footer button{

@@ -45,7 +45,8 @@ function renderModal(currentID) {
   // modalBody.innerText = currentEvents[0].name;
   let eventIndex = currentEvents.map(e => e.id).indexOf(currentID);
   // modalBody.innerText = eventIndex;
-  const { name, id, images, dates, _embedded } = currentEvents[eventIndex];
+  const { name, id, images, dates, classifications, _embedded, priceRanges} =
+    currentEvents[eventIndex];
   let headerImgHTML = ` 
                    <img src="${images[0].url}" class="rounded-circle" loading="lazy"/>
   `;
@@ -53,15 +54,27 @@ function renderModal(currentID) {
   let modalBodyHTML = `
           <div class="modal-body-one">
             <div class="modal-body-img-div">
-              <img src="${images[0].url}" class="modal-body-img" loading="lazy"/>
+              <img src="${
+                images[0].url
+              }" class="modal-body-img" loading="lazy"/>
             </div>
             <div class="modal-body-info-div">
               <h3 class="modal-info-title">INFO</h3>
-              <p class="info-content">Atlas Weekend is the largest music festival in Ukraine.More than 200 artists will create a proper music festival atmosphere on 10 stages </p>
+              <p class="info-content">${name} is the largest ${
+    classifications[0].segment.name
+  } festival in ${
+    _embedded.venues[0].state.name
+  }. More than 200 celebrities will create a proper ${
+    classifications[0].segment.name
+  } festival atmosphere on 10 stages. </p>
               <h3 class="modal-info-title">WHEN</h3>
-              <p class="info-content">${dates.start.localDate}<br>${dates.start.localTime}</p>
+              <p class="info-content">${dates.start.localDate}<br>${
+    dates.start.localTime
+  }</p>
               <h3 class="modal-info-title">WHERE</h3>
-              <p class="info-content">${_embedded.venues[0].name}<br>${_embedded.venues[0].city.name}, ${_embedded.venues[0].state.name}</p>
+              <p class="info-content">${_embedded.venues[0].name}<br>${
+    _embedded.venues[0].city.name
+  }, ${_embedded.venues[0].state.name}</p>
             </div>
           </div>
            <div class="modal-body-who-div">
@@ -72,11 +85,11 @@ function renderModal(currentID) {
               <h3 class="modal-info-title">PRICES</h3>
               <div class="price-content">
                 <div>
-                  <p class="info-content">Standard</p>
+                  <p class="info-content">Standard ${priceRanges[0].min.toFixed(2)} ${priceRanges[0].currency}</p>
                   <button type="button" class="btn btn-primary">BUY TICKETS</button>
                 </div>
                 <div>
-                  <p class="info-content">VIP</p>
+                  <p class="info-content">VIP ${priceRanges[0].max.toFixed(2)} ${priceRanges[0].currency}</p>
                   <button type="button" class="btn btn-primary">BUY TICKETS</button>
                 </div>
                 
